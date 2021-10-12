@@ -1,5 +1,7 @@
 package com.codeclanlab.example.employeetracking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -23,11 +25,19 @@ public class Employee {
     @Column(name = "email")
     private String email;
 
-    public Employee(String name, int age, String employeeNum, String email) {
+    @ManyToOne
+    @JoinColumn(name="department_id", nullable= false)
+    @JsonIgnoreProperties({"employees"})
+
+    private Department department;
+
+
+    public Employee(String name, int age, String employeeNum, String email, Department department) {
         this.name = name;
         this.age = age;
         this.employeeNum = employeeNum;
         this.email = email;
+        this.department = department;
     }
 
     public Employee() {
@@ -71,5 +81,13 @@ public class Employee {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
